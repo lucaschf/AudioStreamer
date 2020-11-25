@@ -1,12 +1,10 @@
-import pickle
 import socket
 
-from helper import get_audio_from_directory
-
-HEADER_SIZE = 10
+from helpers import get_audio_files_from_directory
+from socket_helpers import send_data, server_port, receive_data
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.bind((socket.gethostname(), 12000))
+s.bind((socket.gethostname(), server_port))
 s.listen(5)
 
 while True:
@@ -14,7 +12,7 @@ while True:
     client_socket, address = s.accept()
     print(f"Connection from {address} has been established.")
 
-    library = get_audio_from_directory("../samples")
-    msg = pickle.dumps(library)
-    msg = bytes(f"{len(msg):<{HEADER_SIZE}}", 'utf-8') + msg
-    client_socket.send(msg)
+    # data = receive_data(client_socket)
+
+    library = get_audio_files_from_directory("../samples")
+    send_data(library, client_socket)

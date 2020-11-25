@@ -1,49 +1,46 @@
-import pickle
-
-from flask import Flask, render_template, url_for, request, redirect
 import socket
 
+from flask import Flask, render_template, request
+
 from audio_file import AudioFile
+from connection_command import Command
+from socket_helpers import receive_data, send_data, server_port, server_address, receive_and_play_song
 
 app = Flask(__name__)
 
-server_address = socket.gethostname()
-server_port = 12000
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-HEADER_SIZE = 10
-
-client_socket.connect((socket.gethostname(), server_port))
+def create_connection():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.connect((server_address, server_port))
+    return sock
 
 
-def fetch_library_songs():
-    while True:
-        msg_len = 0
-        full_msg = b''
-        new_msg = True
+def request_play(song):
+    connection = create_connection()
 
-        while True:
-            msg = client_socket.recv(16)
+    data = {Command.play_song: song}
+    send_data(data, connection)
 
-            if new_msg:
-                msg_len = int(msg[:HEADER_SIZE])
-                new_msg = False
+    receive_and_play_song(connection)
 
-            full_msg += msg
+    connection.close()
 
-            if len(full_msg) - HEADER_SIZE == msg_len:
-                return pickle.loads(full_msg[HEADER_SIZE:])
+
+def request_library():
+    sock = create_connection()
+    data = {Command.fetch_library: ''}
+    send_data(data, sock)
+
+    result = receive_data(sock)
+    sock.close()
+
+    return result
 
 
 @app.route('/')
 def index():
-    library = fetch_library_songs()
+    library = request_library()
     return render_template('library.html', title="library", library=library)
-
-
-@app.route('/play/<string:song>')
-def play(song):
-    return render_template('play.html', song=song)
 
 
 @app.route('/play_song', methods=['POST', ])
@@ -53,6 +50,8 @@ def play_song():
     extension = request.form['extension']
 
     song = AudioFile(name, path, extension)
+
+    request_play(song)
 
     return render_template('play.html', song=song)
 
