@@ -1,0 +1,79 @@
+footer {
+    position: fixed;
+    min-height: 100px;
+    bottom: 0;
+    width: 100%;
+}
+
+td img {
+    width: 32px;
+    height: 32px;
+}
+
+td .file_extension {
+    width: 36px;
+    height: 36px;
+}
+
+.pulse-box {
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* pulse in CSS */
+.pulse-css {
+    width: 120px;
+    height: 120px;
+    border-radius: 60px;
+    background: tomato;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+}
+
+.pulse-css img {
+    width: 120px;
+    height: 120px;
+}
+
+.pulse-css:before, .pulse-css:after {
+    content: "";
+    width: 120px;
+    height: 120px;
+    border-radius: 60px;
+    background-color: #ffe9c8;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+    transform: scale(0.0);
+    transform-origin: center center;
+    animation: pulse-me 3s linear infinite;
+}
+
+.pulse-css:after {
+    animation-delay: 2s;
+}
+
+@keyframes pulse-me {
+    0% {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    50% {
+        opacity: 0.1;
+    }
+    70% {
+        opacity: 0.09;
+    }
+    100% {
+        transform: scale(5);
+        opacity: 0;
+    }
+}

@@ -10,7 +10,7 @@ server_socket.listen(0)
 
 CHUNK = 2048  # audio frame size
 
-file_name = '../Nokia-Always here (Ghema 127).wav'
+file_name = '../samples/Nokia-Always here (Ghema 127).wav'
 wf = wave.open(file_name, 'rb')
 
 print("server awaiting....")

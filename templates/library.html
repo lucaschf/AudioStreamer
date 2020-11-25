@@ -1,0 +1,50 @@
+{% extends "template.html"%}
+{% block content %}
+<table class="table table-hover table-striped table-dark " style="margin-bottom: 116px">
+    <thead>
+    <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for audio in library %}
+    <tr>
+        <td>
+            <form method="post" action="{{ url_for('play_song')}}">
+                <button type="submit" class="bg-transparent border-0">
+                    <input type="hidden" name="path" value="{{ audio.path }}">
+                    <input type="hidden" name="name" value="{{ audio.name }}">
+                    <input type="hidden" name="extension" value="{{ audio.extension }}">
+                    <img src="../static/play-button.png" class="bg-transparent" alt="play"/>
+                </button>
+            </form>
+        </td>
+
+        <td>{{ audio.name.title() }}</td>
+        <td><img src="../static/wav.png" class="file_extension" alt="{{ audio.extension }}"/></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<footer class="fixed-bottom container p-3 bg-dark border-top">
+    <!--    <div class="w-100 row no-gutters justify-content-center align-items-center ">-->
+    <!--        <div class="col-auto">-->
+    <!--            <img src="../static/stop%20(1).png" class="img-fluid mr-3" style="width: 48px; height: 48px" alt="">-->
+    <!--        </div>-->
+    <!--        <div class="col justify-content-center align-items-center">-->
+    <!--            <div class="card-block px-2">-->
+    <!--                <h4 class="text-white">Now playing</h4>-->
+    <!--                <p class="text-white"></p>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--    </div>-->
+
+    <div class="d-flex justify-content-center">
+        <img src="../static/stop%20(1).png" class="p-2" style="width: 48px; height: 48px" alt="">
+        <h4 class="p-2 text-white">Now playing: Avenged Sevenfold - Gunslinger.mp3</h4>
+    </div>
+</footer>
+{% endblock %}

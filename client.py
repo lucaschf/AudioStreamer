@@ -5,6 +5,8 @@ import pyaudio
 server_address = "127.0.0.1"
 server_port = 12000
 client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+
+
 client_socket.connect((server_address, server_port))
 
 p_audio = pyaudio.PyAudio()
@@ -27,3 +29,7 @@ print("Audio played")
 stream.close()
 p_audio.terminate()
 client_socket.close()
+
+
+
+
