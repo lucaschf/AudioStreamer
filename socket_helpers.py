@@ -1,9 +1,7 @@
 import pickle
 
-
 HEADER_SIZE = 10
 
-# server_address = socket.gethostname()
 server_address = '10.0.1.15'
 server_port = 12000
 
@@ -28,7 +26,7 @@ def receive_data(client_socket, header_size=HEADER_SIZE):
             if new_msg:
                 try:
                     msg_len = int(msg[:header_size])
-                except Exception:
+                except RuntimeError:
                     msg_len = 0
                 new_msg = False
 

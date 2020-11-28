@@ -4,13 +4,14 @@ import threading
 import pyaudio
 from flask import Flask, render_template, request, redirect, url_for
 
-from connection_command import Command
+from action import Action
 from socket_helpers import receive_data, send_data, server_port, server_address, CHUNK
 from song import Song
 
 app = Flask(__name__)
 
 global playing
+global th
 
 
 def create_connection():
@@ -27,7 +28,7 @@ def receive_and_play_song(connection):
     _format = 8
     channels = 2
     rate = 44100
-    chunk = 2048
+    chunk = CHUNK
 
     stream = p_audio.open(format=_format, channels=channels, rate=rate, output=True)
 
@@ -50,7 +51,7 @@ def receive_and_play_song(connection):
 def request_play(song):
     connection = create_connection()
 
-    data = {Command.play_song: song}
+    data = {Action.play_song: song}
     send_data(data, connection)
 
     receive_and_play_song(connection)
@@ -60,7 +61,7 @@ def request_play(song):
 
 def request_library():
     sock = create_connection()
-    data = {Command.fetch_library: ''}
+    data = {Action.fetch_library: ''}
     send_data(data, sock)
 
     result = receive_data(sock)
@@ -69,13 +70,9 @@ def request_library():
     return result
 
 
-library = request_library()
-global th
-
-
 @app.route('/')
 def index():
-    return render_template('library.html', title="library", song="No song playing", library=library)
+    return render_template('library.html', title="library", song="No song playing", library=request_library())
 
 
 @app.route('/play_song', methods=['POST', ])
@@ -93,9 +90,7 @@ def play_song():
     th = threading.Thread(target=request_play, args=[song])
     th.start()
 
-    # request_play(song)
-
-    return render_template('library.html', title="library", song=song.name, library=library)
+    return render_template('library.html', title="library", song=song.name, library=request_library())
 
 
 @app.route('/stop', methods=['POST', ])
@@ -107,4 +102,5 @@ def stop():
     return redirect(url_for('index'))
 
 
-app.run(host='10.0.1.15', port=8080, debug=True)
+if __name__ == '__main__':
+    app.run(host='10.0.1.15', port=8080, debug=True)
