@@ -47,8 +47,6 @@ def handle_lib_request(connection):
 
 
 def handle_play_request(connection, song):
-    print(song.name)
-
     wf = wave.open(song.path, 'rb')
     data = wf.readframes(CHUNK)
 
