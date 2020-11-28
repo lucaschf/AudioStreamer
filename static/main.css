@@ -5,6 +5,10 @@ footer {
     width: 100%;
 }
 
+.table > tbody > tr > td {
+    vertical-align: middle;
+}
+
 td img {
     width: 32px;
     height: 32px;
@@ -17,7 +21,11 @@ td .file_extension {
 
 .stop_button {
     width: 48px;
-    height: 48px
+    height: 48px;
+}
+
+.hover_div {
+    cursor: pointer;
 }
 
 .pulse-box {
@@ -27,10 +35,11 @@ td .file_extension {
     align-items: center;
 }
 
+
 .pulse-css {
-    width: 45px;
-    height: 45px;
-    border-radius: 22.5px;
+    width: 46px;
+    height: 46px;
+    border-radius: 23px;
     background: tomato;
     top: 0;
     right: 0;
@@ -49,15 +58,13 @@ td .file_extension {
     width: 16px;
     height: 16px;
     border-radius: 8px;
-    background-color: #ffe9c8;
+    background-color: tomato;
     position: absolute;
-    margin: 15px;
-    /*top: 0;*/
+    margin-left: 15px;
+    margin-right: 16px;
+    margin-top: 18px;
+    top: 20px;
     left: 16px;
-    /*bottom: 0;*/
-    /*left: 0;*/
-    /*margin: auto */
-
     transform: scale(0.0);
     transform-origin: center center;
     animation: pulse-me 3s linear infinite;

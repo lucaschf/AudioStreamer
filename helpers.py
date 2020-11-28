@@ -14,7 +14,7 @@ def __file_name_no_extension(file_name):
 
 
 def get_song_library(folder):
-    extensions = ['wav', 'mp3']
+    extensions = ['wav', ]
     file_names = [fn for fn in os.listdir(folder) if any(fn.endswith(ext) for ext in extensions)]
 
     songs = list()

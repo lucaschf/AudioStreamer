@@ -43,7 +43,7 @@ def receive_and_play_song(connection):
     connection.close()
 
 
-def request_play(song):
+def play(song):
     connection = create_connection()
 
     data = {Action.play_song: song}
@@ -54,7 +54,7 @@ def request_play(song):
     connection.close()
 
 
-def request_library():
+def fetch_library():
     sock = create_connection()
     data = {Action.fetch_library: ''}
     send_data(data, sock)
@@ -67,10 +67,10 @@ def request_library():
 
 @app.route('/')
 def index():
-    return render_template('library.html', title="library", song="No song playing", library=request_library())
+    return render_template('library.html', title="library", library=fetch_library())
 
 
-@app.route('/play_song', methods=['POST', ])
+@app.route('/play', methods=['POST', ])
 def play_song():
     name = request.form['currentSongName']
     path = request.form['currentSongPath']
@@ -82,10 +82,10 @@ def play_song():
     global playing
     playing = False
 
-    th = threading.Thread(target=request_play, args=[song])
+    th = threading.Thread(target=play, args=[song])
     th.start()
 
-    return render_template('library.html', title="library", song=song.name, library=request_library())
+    return render_template('library.html', title="library", song=song.name, library=fetch_library())
 
 
 @app.route('/stop', methods=['POST', ])
@@ -98,4 +98,5 @@ def stop():
 
 
 if __name__ == '__main__':
+    # como o trabalho consiste em comunicações entre sockets, este webclient deve ser rodado apenas no localHost.
     app.run(host='127.0.0.1', port=8080, debug=True)

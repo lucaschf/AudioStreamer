@@ -37,14 +37,14 @@
 
     <footer class="fixed-bottom container p-3 bg-dark border-top">
         <div class="d-flex ">
-            <div class="pulse-box bg-transparent border-0" onclick="onStopClick();">
+            <div class="pulse-box bg-transparent border-0 hover_div" onclick="onStopClick();">
                 <div class="pulse-css">
                     <img class='stop_button' alt="" src="{{ url_for('static', filename='ic_stop.png') }}">
                 </div>
             </div>
 
             <h4 class="p-2 mt-1 ml-2 text-white">
-                {{song}}
+                {{song|default('No song playing')|title}}
             </h4>
         </div>
     </footer>
@@ -56,7 +56,7 @@
         let songName = $(identifier).data('song_name')
         let songExt = $(identifier).data('song_ext')
 
-        document.lib_form.action = "play_song";
+        document.lib_form.action = "play";
 
         document.lib_form.currentSongExt.value = songExt
         document.lib_form.currentSongName.value = songName

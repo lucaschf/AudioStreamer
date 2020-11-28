@@ -5,16 +5,16 @@ class Song:
         self.__extension = extension
 
     @property
-    def name(self):
-        return self.__name
-
-    @property
     def extension(self):
         return self.__extension
 
     @property
     def path(self):
         return self.__path
+
+    @property
+    def name(self):
+        return self.__name
 
     @name.setter
     def name(self, name):

@@ -31,7 +31,8 @@ def handle(connection, address):
                 connection.close()
                 break
             if Action.play_song in data:
-                th = threading.Thread(target=handle_play_request, args=[connection, data.get(Action.play_song)])
+                th = threading.Thread(target=handle_play_request,
+                                      args=[connection, data.get(Action.play_song), logger])
                 th.start()
                 break
             else:
@@ -42,11 +43,11 @@ def handle(connection, address):
 
 
 def handle_lib_request(connection):
-    library = get_song_library("../music")
+    library = get_song_library("music")
     send_data(library, connection)
 
 
-def handle_play_request(connection, song):
+def handle_play_request(connection, song, logger):
     wf = wave.open(song.path, 'rb')
     data = wf.readframes(CHUNK)
 
@@ -55,7 +56,7 @@ def handle_play_request(connection, song):
             connection.send(data)
             data = wf.readframes(2048)
         except ConnectionResetError:
-            print('Connection closed by client')
+            logger.info('Connection closed by client')
             break
 
     connection.close()
@@ -72,7 +73,7 @@ class Server(object):
         self.socket = None
 
     def start(self):
-        self.logger.info("Awaiting connection...")
+        self.logger.info("Server ready...")
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.bind((self.hostname, self.port))
         self.socket.listen(1)
