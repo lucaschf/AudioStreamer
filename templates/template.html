@@ -6,11 +6,12 @@
     <title>Audio Streamer</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+    <script src="{{url_for('static', filename='jquery.min.js')}}"></script>
 </head>
 <body class="bg-dark">
 <div class="container bg-dark">
     <div class="page-header text-white mt-5">
-        <h1>{{ title }}</h1>
+        <h1>{{ title|title }}</h1>
     </div>
 
     {% block content %}{% endblock %}

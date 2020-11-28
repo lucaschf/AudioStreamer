@@ -1,16 +1,16 @@
 import multiprocessing
 import socket
 import wave
+import logging
 
 from connection_command import Command
 from helpers import get_audio_files_from_directory
 from socket_helpers import receive_data, send_data, server_address, server_port
 
+logging.basicConfig(level=logging.DEBUG)
+
 
 def handle(connection, address):
-    import logging
-
-    logging.basicConfig(level=logging.DEBUG)
     logger = logging.getLogger("process-%r" % (address,))
 
     try:
@@ -22,21 +22,21 @@ def handle(connection, address):
                 logger.debug(f"No data received. Connection with {address} closed.")
                 break
 
-            logger.info(f"Received request {data}")
+            logger.info(f"Received request  {str(data)}")
 
             if Command.fetch_library in data:
                 handle_lib_request(connection)
+                logger.info("Closing connection.")
                 break
             if Command.play_song in data:
+                logger.info(f"Palying song  {str(data.get(Command.play_song))}")
                 handle_play_request(connection, data.get(Command.play_song))
-                logger.info("Playing song .......")
                 break
             else:
                 break
     except RuntimeError:
         logger.exception("Can't handle request")
     finally:
-        logger.info("Closing connection.")
         connection.close()
 
 
@@ -46,15 +46,18 @@ def handle_lib_request(connection):
 
 
 def handle_play_request(connection, song):
+    print(song.name)
+
     wf = wave.open(song.path, 'rb')
     data = wf.readframes(2048)
 
-    print('DATA ' + str(song))
-
     while data:
-        # print('Sending audio')
-        connection.send(data)
-        data = wf.readframes(2048)
+        try:
+            connection.send(data)
+            data = wf.readframes(2048)
+        except ConnectionResetError:
+            print('Connection closed by client')
+            break
 
     connection.close()
     wf.close()

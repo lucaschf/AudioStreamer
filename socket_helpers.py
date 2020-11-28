@@ -1,11 +1,10 @@
 import pickle
-import socket
 
-import pyaudio
 
 HEADER_SIZE = 10
 
-server_address = socket.gethostname()
+# server_address = socket.gethostname()
+server_address = '10.0.1.15'
 server_port = 12000
 
 CHUNK = 2048
@@ -37,26 +36,3 @@ def receive_data(client_socket, header_size=HEADER_SIZE):
 
             if len(full_msg) - header_size == msg_len:
                 return pickle.loads(full_msg[header_size:])
-
-
-def receive_and_play_song(connection):
-    p_audio = pyaudio.PyAudio()
-
-    print("Receiving")
-
-    _format = 8
-    channels = 2
-    rate = 44100
-    chunk = 2048
-
-    stream = p_audio.open(format=_format, channels=channels, rate=rate, output=True)
-
-    content = connection.recv(chunk)
-
-    while content:
-        stream.write(content)  # plays audio
-        content = connection.recv(CHUNK)
-
-    stream.close()
-    p_audio.terminate()
-    connection.close()
