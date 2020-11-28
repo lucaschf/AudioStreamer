@@ -36,11 +36,14 @@
     </table>
 
     <footer class="fixed-bottom container p-3 bg-dark border-top">
-        <div class="d-flex justify-content-center">
-            <button name="stop" id="btn_stop" class="bg-transparent border-0" onclick="onStopClick();">
-                <img class='stop_button' alt="" src="{{ url_for('static', filename='ic_stop.png') }}">
-            </button>
-            <h4 class="p-2 mt-1 text-white">
+        <div class="d-flex ">
+                <div class="pulse-box bg-transparent border-0" onclick="onStopClick();">
+                    <div class="pulse-css">
+                        <img class='stop_button' alt="" src="{{ url_for('static', filename='ic_stop.png') }}">
+                    </div>
+                </div>
+
+            <h4 class="p-2 mt-1 ml-2 text-white">
                 {{song}}
             </h4>
         </div>

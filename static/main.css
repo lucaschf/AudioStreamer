@@ -21,7 +21,7 @@ td .file_extension {
 }
 
 .pulse-box {
-    height: 80vh;
+    height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -29,9 +29,9 @@ td .file_extension {
 
 /* pulse in CSS */
 .pulse-css {
-    width: 120px;
-    height: 120px;
-    border-radius: 60px;
+    width: 45px;
+    height: 45px;
+    border-radius: 22.5px;
     background: tomato;
     top: 0;
     right: 0;
@@ -41,22 +41,24 @@ td .file_extension {
 }
 
 .pulse-css img {
-    width: 120px;
-    height: 120px;
+    width: 45px;
+    height: 45px;
 }
 
 .pulse-css:before, .pulse-css:after {
     content: "";
-    width: 120px;
-    height: 120px;
-    border-radius: 60px;
+    width: 16px;
+    height: 16px;
+    border-radius: 8px;
     background-color: #ffe9c8;
     position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    margin: auto;
+    margin: 15px;
+    /*top: 0;*/
+    left: 16px;
+    /*bottom: 0;*/
+    /*left: 0;*/
+    /*margin: auto */
+
     transform: scale(0.0);
     transform-origin: center center;
     animation: pulse-me 3s linear infinite;
@@ -82,3 +84,67 @@ td .file_extension {
         opacity: 0;
     }
 }
+
+
+/*.pulse-box {*/
+/*    height: 80vh;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*}*/
+
+/*!* pulse in CSS *!*/
+/*.pulse-css {*/
+/*    width: 120px;*/
+/*    height: 120px;*/
+/*    border-radius: 60px;*/
+/*    background: tomato;*/
+/*    top: 0;*/
+/*    right: 0;*/
+/*    bottom: 0;*/
+/*    left: 0;*/
+/*    margin: auto;*/
+/*}*/
+
+/*.pulse-css img {*/
+/*    width: 120px;*/
+/*    height: 120px;*/
+/*}*/
+
+/*.pulse-css:before, .pulse-css:after {*/
+/*    content: "";*/
+/*    width: 120px;*/
+/*    height: 120px;*/
+/*    border-radius: 60px;*/
+/*    background-color: #ffe9c8;*/
+/*    position: absolute;*/
+/*    top: 0;*/
+/*    right: 0;*/
+/*    bottom: 0;*/
+/*    left: 0;*/
+/*    margin: auto;*/
+/*    transform: scale(0.0);*/
+/*    transform-origin: center center;*/
+/*    animation: pulse-me 3s linear infinite;*/
+/*}*/
+
+/*.pulse-css:after {*/
+/*    animation-delay: 2s;*/
+/*}*/
+
+/*@keyframes pulse-me {*/
+/*    0% {*/
+/*        transform: scale(0.5);*/
+/*        opacity: 0;*/
+/*    }*/
+/*    50% {*/
+/*        opacity: 0.1;*/
+/*    }*/
+/*    70% {*/
+/*        opacity: 0.09;*/
+/*    }*/
+/*    100% {*/
+/*        transform: scale(5);*/
+/*        opacity: 0;*/
+/*    }*/
+/*}*/

@@ -1,13 +1,17 @@
 import multiprocessing
 import socket
+import threading
 import wave
 import logging
+import _thread
 
 from connection_command import Command
 from helpers import get_audio_files_from_directory
 from socket_helpers import receive_data, send_data, server_address, server_port
 
 logging.basicConfig(level=logging.DEBUG)
+
+l = list()
 
 
 def handle(connection, address):
@@ -27,16 +31,16 @@ def handle(connection, address):
             if Command.fetch_library in data:
                 handle_lib_request(connection)
                 logger.info("Closing connection.")
+                connection.close()
                 break
             if Command.play_song in data:
-                logger.info(f"Palying song  {str(data.get(Command.play_song))}")
-                handle_play_request(connection, data.get(Command.play_song))
+                th = threading.Thread(target=handle_play_request, args=[connection, data.get(Command.play_song)])
+                th.start()
                 break
             else:
                 break
     except RuntimeError:
         logger.exception("Can't handle request")
-    finally:
         connection.close()
 
 
