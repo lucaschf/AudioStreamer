@@ -35,6 +35,8 @@ Run the files in the below sequence:
 
 ## Running the tests
 
+The audio library is composed of songs in the .wav format. To add audios, just add them to the project's 'music' directory.
+
 Open up your browser and visit
 ```
 http://localhost:8080
