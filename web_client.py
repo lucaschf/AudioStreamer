@@ -23,25 +23,20 @@ def create_connection():
 def receive_and_play_song(connection):
     p_audio = pyaudio.PyAudio()
 
-    print("Receiving")
-
     _format = 8
     channels = 2
     rate = 44100
-    chunk = CHUNK
 
     stream = p_audio.open(format=_format, channels=channels, rate=rate, output=True)
 
-    content = connection.recv(chunk)
+    content = connection.recv(CHUNK)
 
     global playing
     playing = True
-    while content:
+
+    while content and playing:
         stream.write(content)  # plays audio
         content = connection.recv(CHUNK)
-
-        if not playing:
-            break
 
     stream.close()
     p_audio.terminate()
