@@ -1,4 +1,4 @@
-# Simple Flask Music Streaming App with Sockets  
+# Simple Flask Local Music Streaming App With Sockets  
 
 A simple Flask app for streaming music using sockets. Practical work for the discipline of computer networks of the course systems for internet 2020.
 
