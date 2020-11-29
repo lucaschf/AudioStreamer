@@ -85,7 +85,7 @@ def play_song():
     th = threading.Thread(target=play, args=[song])
     th.start()
 
-    return render_template('library.html', title="library", song=song.name, library=fetch_library())
+    return render_template('library.html', title="library", song_name=song.name, library=fetch_library())
 
 
 @app.route('/stop', methods=['POST', ])
