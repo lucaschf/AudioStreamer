@@ -1,5 +1,6 @@
 import socket
 import threading
+import time
 
 import pyaudio
 from flask import Flask, render_template, request, redirect, url_for
@@ -72,6 +73,9 @@ def index():
 
 @app.route('/play', methods=['POST', ])
 def play_song():
+    global playing
+    playing = False
+
     name = request.form['currentSongName']
     path = request.form['currentSongPath']
     extension = request.form['currentSongExt']
@@ -79,10 +83,9 @@ def play_song():
     song = Song(name, path, extension)
 
     global th
-    global playing
-    playing = False
-
     th = threading.Thread(target=play, args=[song])
+
+    time.sleep(0.2)
     th.start()
 
     return render_template('library.html', title="library", song_name=song.name, library=fetch_library())
